@@ -1,0 +1,97 @@
+<!--
+  Generated template for the DroneLockPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Vendor create </ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list  inset padding>
+        <ion-item>
+            <p> Create vendor . </p>
+            <p> The vendor data to be used with vendor application </p>
+        </ion-item>
+
+
+        <ion-item>
+                    <ion-label>Vendor Name </ion-label>
+                    <ion-input [(ngModel)]="name" placeholder="Vendor name" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+                    <ion-label><ion-icon name="mail"></ion-icon></ion-label>
+                    <ion-input [(ngModel)]="email" placeholder="Email" type="email"></ion-input>
+        </ion-item>
+
+        <ion-item>
+                    <ion-label><ion-icon name="address"></ion-icon></ion-label>
+                    <ion-input [(ngModel)]="address" placeholder="Address" type="address"></ion-input>
+        </ion-item>
+        <ion-item>
+                    <ion-label><ion-icon name="phone"></ion-icon></ion-label>
+                    <ion-input [(ngModel)]="phone" placeholder="Phone" type="phone"></ion-input>
+        </ion-item>
+        <ion-item>
+                    <ion-label>Contract type</ion-label>
+                    <ion-select [(ngModel)]="contracttype">
+                        <ion-option value="trial"> Trial contract </ion-option>
+                        <ion-option value="beta"> Beta contract </ion-option>
+                        <ion-option value="flat"> Flat fees contract </ion-option>
+                        <ion-option value="percentage"> Percentage fees contract</ion-option>
+                        <ion-option value="mixed"> Mixed fees contract</ion-option>
+                    </ion-select>
+        </ion-item>
+        <ion-item>
+                    <ion-label>Vendor type</ion-label>
+                    <ion-select [(ngModel)]="vendortype">
+                        <ion-option value="bitcoincoupon">Bitcoin Coupon vendor</ion-option>
+                        <ion-option value="fiatcoupon">Fiat Coupon vendor</ion-option>
+                        <ion-option value="notionalcoupon">Notional Coupon vendor</ion-option>
+                    </ion-select>
+        </ion-item>
+
+
+        <ion-item>
+            <button clear item-right ion-button>Create vendor </button>
+        </ion-item>
+        <ion-item>
+                    <ion-label> Vendor id </ion-label> {{vendorid}}
+                    <ion-label> Vendor PIN </ion-label> {{vendorpin}}
+        </ion-item>
+        <ion-item>
+            <button item-right ion-button color="primary">Generate vendor id/PIN</button>
+        </ion-item>
+        <ion-item>
+                    <ion-label> Contractor Income address </ion-label> {{contractor.address}}
+            <button clear item-right ion-button>Check balance</button>
+        </ion-item>
+        <ion-item>
+                    <ion-label> Contractor Spending address </ion-label> {{contractor.address}}
+            <button clear item-right ion-button>Check balance</button>
+        </ion-item>
+        <ion-item>
+            <ion-input type="number" placeholder="Enter Spending Amount"></ion-input>
+            <button clear item-right ion-button>Check balance</button>
+        </ion-item>
+        <ion-item>
+        </ion-item>
+        <ion-item>
+        </ion-item>
+        <ion-item>
+            <a item-left ion-button  href="vendor.vendorfilename" download>Download vendor data </a>
+                    <ion-label><ion-icon name="download"></ion-icon></ion-label>
+        </ion-item>
+        <ion-item>
+            <button item-left ion-button (click)="activateVendor()">Activate vendor </button>
+        </ion-item>
+   </ion-list>
+
+</ion-content>

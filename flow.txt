@@ -1,0 +1,18 @@
+create vendor 
+
+
+- create a json file (with some pins etc) (done)
+- download vendor-secret (done)
+
+(listen) create plans
+
+- see plans of vendor
+
+vendor system
+- copy the json file in server(can pull it also)
+- use it to create coupon plans
+
+- use plans to create coupons
+
+ 
+

@@ -1,0 +1,15 @@
+
+- contractor, vendor , client , with pseudo blockchain
+
+- type of payment
+- type of coupons
+- type of settlement
+- controls for each type
+
+
+(which can be ignored?)
+
+- type of blockchain node provider
+- type of blockchain url
+
+

@@ -1,0 +1,51 @@
+
+single-way plan
+contractor-plan
+20$ + 20%  (25000$)
+30$ + 30%  (10000$)
+30$ + 40%  (1000$)
+20$ + 50%  (100$)
+
+based on vendor value
+
+contractor-plan
+
+vendor-plans
+plan4
+plan6
+plan8
+plan10
+
+4% of coupon + 20$
+6% of coupon + 20$
+8% of coupon + 20$
+
+choose - fixed fees (20$ to 100$)
+choose - percentage fees (4% to 10%)
+
+plan-name - vendorgiven
+timeout - 10
+
+(refund strategy)
+- vendor can do it, after informing contractor.
+
+- vendor pays fees
+- pays for coupons
+
+(redeem, same amount percentage)
+
+checks-contract -> before plan create
+plan create (his percentage, coupon data, metadata, created)
+
+coupon-issue -> checks-plan before using
+coupon-issue (uses data from plans, contract)-> to create coupon
+
+
+--------------------------------------------------
+vendor
+client-> entry
+ server-> add these entry and send to receive plan
+
+ plan stored in vendor-db
+
+

@@ -28,8 +28,37 @@ function vendordata(vend)
         
     };
 }
+
+exports.availablePlans = function(req, res, next){
+
+  var vendorid = req.params.vendor_id;
+
+ // These to be migrated to contractorside
+ var availableplans= [
+	{name: "plan4p200f", desc: "4% commission 200 unit fees "},
+	{name: "plan6p100f", desc: "6% commission 100 unit fees "},
+	{name: "plan10p50f", desc: "10% commission 50 unit fees "}
+
+  ];
+ 
+       	res.send(availableplans);
+}
+
+exports.availableSchemes = function(req, res, next){
+
+  var vendorid = req.params.vendor_id;
+
+ // These to be migrated to contractorside
+ var availableschemes= [
+	{name: "bitcoin_30", desc: "30% plan with bitcoin "},
+	{name: "bitcoin_50", desc: "50% plan with bitcoin "}
+
+  ];
+ 
+       	res.send(availableschemes);
+}
 exports.createPair = function(req, res, next){
-    
+   
    
     var vendor_data = vendordata(req.body);
     

@@ -5,24 +5,19 @@ var CouponSchema = new mongoose.Schema({
 
 	couponid: {
 		type: String,
-		lowercase: true,
 		unique: true,
 		required: true
 	},
 	coupondata: {
 		type: String,
-		lowercase: true,
-		unique: true,
 		required: true
 	},
 	activate: {
 		type: Boolean,
-		required: true,
 		default: false
 	},
 	redeemed: {
 		type: Boolean,
-		required: true,
 		default: false
 	},
 	pin: {
@@ -32,16 +27,13 @@ var CouponSchema = new mongoose.Schema({
 	coupontype: {
 		type: String,
 		default: 'coupon101',
-		required: true
 	},
 	vendor: {
 		type: String,
-		required: true
 	},
 	redeemer: {
 		type: String,
 		default: '',
-		required: true
 	},
 	role: {
 		type: String,
@@ -57,6 +49,9 @@ CouponSchema.pre('save', function(next){
 
 	var coupon = this;
 	var SALT_FACTOR = 5;
+
+                return next();
+
 // Check coupon is proper;
 /*
 	if(!user.isModified('password')){

@@ -1,4 +1,5 @@
 var Relation = require('../models/relation');
+var vendor_template = require('../vendor_template.json');
 /*
 
   Relation between vendor and his clients
@@ -31,6 +32,32 @@ function validatevendor(vendor)
    return validation;
 
 }
+
+function plancreate(vendorpopulated)
+{
+   var plan = {
+       serverdata: '',
+       clientdata: '',
+       allow: false,
+       planhash: 'jash'
+   };
+
+   var planfound = false;
+
+   for(var i=0; i< vendor_templates.plans.length; i++)
+   {
+      if(vendorpopulated.plan == vendor_templates.plans[i].plan) 
+      {
+        planfound = true;
+	break
+      }
+   }
+   
+    
+   return plan;
+
+}
+
 
 
 function validateplan(vendor, storedvendor)
@@ -72,15 +99,25 @@ exports.createRelation = function(req, res, next){
      }; 
      return res.status(1001).send(err);
   }
+  
 
+  var plancreated =  plancreate(vendor, req.populatatedvendor)
+  if(plancreate.allow == false)
+  {
+     var err = {
+        error: "vendor plan create failed "
+     }; 
+     return res.status(1001).send(err);
+  }
+   
   // plan validation can be done later
 
   var length = 10;
   var pairdata = {
        vendorid: req.body.vendor_id,
-        serverdata: 'has addresses of conractor and vendor ',
+        serverdata: plancreated.serverdata,
         pairid:  'rel_'+Math.random().toString(36).substr(2, length),
-        clientdata: 'has addresses of conractor and vendor ',
+        clientdata: plancreated.clientdata,
         pinhash: 'contract.pinhash',
         contractorid: 'contract.contractorid',
         validatorhash: 'contract.validatorhash',

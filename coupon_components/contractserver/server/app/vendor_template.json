@@ -1,0 +1,24 @@
+{
+  "plans": [{
+     "type" : "bitcoin101",
+     "plan" : "plan6b",
+     "percentincome" : "6",             
+     "fixedincome" : "60",             
+     "minimum" : "1000",        
+     "maximum" : "1000",       
+     "fees" : "20"
+
+     },
+     {
+     "type" : "fiat101",
+     "plan": "plan4f",
+     "percentincome" : "6", 
+     "fixedincome" : "60", 
+     "minimum" : "1000",  
+     "maximum" : "1000", 
+     "fees" : "20"   
+
+     }
+   ]
+
+}

@@ -44,6 +44,8 @@ module.exports = function(app){
 */
     manageRoutes.post('/createPair', ManagerController.createPair);
     manageRoutes.get('/getPairs',  ManagerController.getPairs);
+    manageRoutes.get('/getAvailablePlans/:vendor_id',  ManagerController.availablePlans);
+    manageRoutes.get('/getAvailableSchemes/:vendor_id',  ManagerController.availableSchemes);
 
     manageRoutes.get('/detail/:pair_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.getPair);
     manageRoutes.get('/delete/:pair_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.deletePair);
@@ -53,7 +55,7 @@ module.exports = function(app){
 
     apiRoutes.use('/coupon', couponRoutes);
     couponRoutes.get('/getCoupons', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), CouponController.getCoupons);
-    couponRoutes.post('/createCoupon', requireAuth, AuthenticationController.roleAuthorization(['creator','editor']), CouponController.createCoupon);
+    couponRoutes.post('/createCoupon',  CouponController.createCoupon);
     couponRoutes.get('/delete/:coupon_id', requireAuth, AuthenticationController.roleAuthorization(['editor']), CouponController.deleteCoupon);
 
     couponRoutes.get('/detail/:coupon_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator', 'editor']), CouponController.getCoupon);

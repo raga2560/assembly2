@@ -5,7 +5,9 @@ var BitcoinCoupon = require('../coupon/bitcoincoupon');
 
 exports.getCoupons = function(req, res, next){
 
-    Coupon.find(function(err, coupons) {
+    Coupon.find({},
+        {'coupondata': 1, 'couponid':1},
+        function(err, coupons) {
 
         if (err){
         	res.send(err);
@@ -38,7 +40,7 @@ exports.createCoupon = function(req, res ){
     if((coupondata.couponscheme == "bitcoin_30") || 
        (coupondata.couponscheme == "bitcoin_50") )
     {
-       createdcoupon = BitcoinCoupon.getAddress(coupondata);
+       createdcoupon = BitcoinCoupon.getCoupon(coupondata);
     }
 
     console.log(createdcoupon);
@@ -47,7 +49,7 @@ exports.createCoupon = function(req, res ){
         couponid : req.body.couponid,
         vendor : 'req.body.description',
         pin : req.body.couponpin,
-        coupondata: JSON.stringify(req.body),
+        coupondata: JSON.stringify(createdcoupon),
         done : false
     }, function(err, coupon) {
 
@@ -82,36 +84,45 @@ exports.deleteCoupon = function(req, res, next){
 exports.activateCoupon = function(req, res, next){
 
     Coupon.update({
-        _id : req.params.coupon_id
+        couponid : req.params.couponid
     }, function(err, coupon) {
         res.json(coupon);
     });
 
 }
 exports.redeemCoupon = function(req, res, next){
+    if(validateCoupon(req.body) == false)
+    {
+       var err = {
+	  error: "Invalid coupon"
+       };
+
+       res.status(1002).json(err);
+    }
 
     Coupon.update({
-        _id : req.params.coupon_id
+        couponid : req.params.couponid
     }, function(err, coupon) {
         res.json(coupon);
     });
+    
 
 }
 
-exports.validateCoupon = function(req, res, next){
 
-    Coupon.update({
-        _id : req.params.coupon_id
-    }, function(err, coupon) {
-        res.json(coupon);
-    });
+exports.validateCoupon = function(req, res, next){
+  
+    var res = couponCheck(req.body); 
+   
+    res.json(res);
+
 }
 
 exports.getCoupon = function(req, res, next){
 
     Coupon.find({
-        _id : req.params.coupon_id
-    }, function(err, coupon) {
+        couponid : req.params.couponid}, {'coupondata': 1},
+     function(err, coupon) {
         if (err){
                 res.send(err);
         }

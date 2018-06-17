@@ -36,25 +36,25 @@ module.exports = function(app){
     todoRoutes.delete('/:todo_id', requireAuth, AuthenticationController.roleAuthorization(['editor']), TodoController.deleteTodo);
 
     apiRoutes.use('/manager', manageRoutes);
-    //manageRoutes.post('/', requireAuth, AuthenticationController.roleAuthorization(['creator']), ManagerController.createPair);
+    //manageRoutes.post('/', requireAuth, AuthenticationController.roleAuthorization(['creator']), ManagerController.createPlan);
 /*
     manageRoutes.post('/serverinit', requireAuth, AuthenticationController.roleAuthorization(['creator']), ManagerController.serverInitialise);
     manageRoutes.post('/clientinit', requireAuth, AuthenticationController.roleAuthorization(['reader']), ManagerController.clientInitialise);
-    manageRoutes.get('/getPairs', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.getPairs);
+    manageRoutes.get('/getPlans', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.getPlans);
 */
-    manageRoutes.post('/createPair', ManagerController.createPair);
-    manageRoutes.get('/getPairs',  ManagerController.getPairs);
+    manageRoutes.post('/createPlan', ManagerController.createPlan);
+    manageRoutes.get('/getPlans',  ManagerController.getPlans);
     manageRoutes.get('/getAvailablePlans/:vendor_id',  ManagerController.availablePlans);
     manageRoutes.get('/getAvailableSchemes/:vendor_id',  ManagerController.availableSchemes);
 
-    manageRoutes.get('/detail/:pair_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.getPair);
-    manageRoutes.get('/delete/:pair_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.deletePair);
-    manageRoutes.get('/plan/server/:pair_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.downloadServerPair);
-    manageRoutes.get('/plan/client/:pair_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.downloadClientPair);
+    manageRoutes.get('/detail/:pair_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.getPlan);
+    manageRoutes.get('/delete/:pair_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.deletePlan);
+    manageRoutes.get('/plan/server/:pair_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.downloadServerPlan);
+    manageRoutes.get('/plan/client/:pair_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.downloadClientPlan);
 
 
     apiRoutes.use('/coupon', couponRoutes);
-    couponRoutes.get('/getCoupons', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), CouponController.getCoupons);
+    couponRoutes.get('/getCoupons',  CouponController.getCoupons);
     couponRoutes.post('/createCoupon',  CouponController.createCoupon);
     couponRoutes.get('/delete/:coupon_id', requireAuth, AuthenticationController.roleAuthorization(['editor']), CouponController.deleteCoupon);
 

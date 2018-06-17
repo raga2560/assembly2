@@ -2,7 +2,7 @@ var Manager = require('../models/manager');
 var Contractor = require('./contractor');
 var contract = require('../../config/contract.json')
 
-exports.getPairs = function(req, res, next){
+exports.getPlans = function(req, res, next){
 
     Manager.find(function(err, pairs) {
 
@@ -35,9 +35,15 @@ exports.availablePlans = function(req, res, next){
 
  // These to be migrated to contractorside
  var availableplans= [
-	{name: "plan4p200f", desc: "4% commission 200 unit fees "},
-	{name: "plan6p100f", desc: "6% commission 100 unit fees "},
-	{name: "plan10p50f", desc: "10% commission 50 unit fees "}
+	{name: "plan4p200f", desc: "4% commission 200 unit fees ", 
+        vendoraddress: "vendoraddress", contractoraddress: "contractoraddress",
+        percent: "4", fixed:"200"},
+	{name: "plan6p100f", desc: "6% commission 100 unit fees ", 
+        vendoraddress: "vendoraddress", contractoraddress: "contractoraddress",
+        percent: "6", fixed:"100"},
+	{name: "plan10p50f", desc: "10% commission 50 unit fees ", 
+        vendoraddress: "vendoraddress", contractoraddress: "contractoraddress",
+        percent: "10", fixed:"50"}
 
   ];
  
@@ -50,19 +56,19 @@ exports.availableSchemes = function(req, res, next){
 
  // These to be migrated to contractorside
  var availableschemes= [
-	{name: "bitcoin_30", desc: "30% plan with bitcoin "},
-	{name: "bitcoin_50", desc: "50% plan with bitcoin "}
+	{name: "bitcoin_30", desc: "30% plan with bitcoin ", vendor: "70", contractor:"30"},
+	{name: "bitcoin_50", desc: "50% plan with bitcoin ", vendor:"50", contractor: "50"}
 
   ];
  
        	res.send(availableschemes);
 }
-exports.createPair = function(req, res, next){
+exports.createPlan = function(req, res, next){
    
    
     var vendor_data = vendordata(req.body);
     
-    Contractor.getPair(vendor_data, function(err, pairdatasent) {
+    Contractor.getPlan(vendor_data, function(err, pairdatasent) {
  
     console.log("pairdata="+pairdata);
     var pairdata = JSON.parse(pairdatasent);
@@ -113,7 +119,7 @@ exports.createPair = function(req, res, next){
 
 }
 
-exports.deletePair = function(req, res, next){
+exports.deletePlan = function(req, res, next){
 
     Manager.remove({
         _id : req.params.pair_id
@@ -123,7 +129,7 @@ exports.deletePair = function(req, res, next){
 
 }
 
-exports.getPair = function(req, res, next){
+exports.getPlan = function(req, res, next){
 
     Manager.find({
         _id : req.params.pair_id
@@ -160,7 +166,7 @@ exports.clientInitialise = function(req, res, next){
     });
 }
 
-exports.downloadPair = function(req, res, next){
+exports.downloadPlan = function(req, res, next){
 
     Manager.find({
         _id : req.params.pair_id
@@ -172,7 +178,7 @@ exports.downloadPair = function(req, res, next){
     });
 }
 
-exports.downloadServerPair = function(req, res, next){
+exports.downloadServerPlan = function(req, res, next){
 
     Manager.find({
         _id : req.params.pair_id
@@ -184,7 +190,7 @@ exports.downloadServerPair = function(req, res, next){
     });
 }
 
-exports.downloadClientPair = function(req, res, next){
+exports.downloadClientPlan = function(req, res, next){
 
     Manager.find({
         _id : req.params.pair_id

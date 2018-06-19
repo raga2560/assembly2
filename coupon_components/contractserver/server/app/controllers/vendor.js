@@ -113,7 +113,7 @@ exports.deleteVendor = function(req, res, next){
 exports.populateVendor = function(req, res, next){
 
     Vendor.find({
-        _id : req.body.vendor_id
+        _id : req.body.vendor_data.vendorid
     }, function(err, vendor) {
         if (err){
                 res.send(err);

@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var ManagerSchema = new mongoose.Schema({
 
-	pairid: {
+	planid: {
 		type: String,
 		lowercase: true,
 		unique: true,
@@ -30,9 +30,9 @@ var ManagerSchema = new mongoose.Schema({
 		type: String,
                 required: true
 	},
-	pairtype: {
+	plantype: {
 		type: String,
-		default: 'couponpair101',
+		default: 'couponplan101',
 	},
 	vendorid: {
 		type: String,

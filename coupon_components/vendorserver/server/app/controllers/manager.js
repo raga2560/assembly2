@@ -4,29 +4,32 @@ var contract = require('../../config/contract.json')
 
 exports.getPlans = function(req, res, next){
 
-    Manager.find(function(err, pairs) {
+    Manager.find(function(err, plans) {
 
         if (err){
         	res.send(err);
         }
 
-        res.json(pairs);
+        res.json(plans);
 
     });
 
 }
 
-function vendordata(vend)
+function vendordata(vend, vendoraddress)
 {
+  // get address newwif
     return {
 	vendorid: contract.vendorid,
 	planname: vend.planname,
-	planid: vend.planid,
-	vendorincomeaddress: vend.vendorincomeaddress,
-	vendorspendingaddress: vend.vendorspendingaddress,
-        checksum: contract.PIN
+	vendoraddress: vendoraddress,
+	vendorfixedfees: vend.vendorfixedfees,
+	vendorpercentagefees: vend.vendorpercentagefees
         
     };
+   /*
+      Above data will be used by contractor to approve plan
+    */
 }
 
 exports.availablePlans = function(req, res, next){
@@ -65,13 +68,25 @@ exports.availableSchemes = function(req, res, next){
 }
 exports.createPlan = function(req, res, next){
    
+    var vendorwif = 'kkk';  // 7PENDING
+    var vendor_data = vendordata(req.body, vendorwif.getAddress());
    
-    var vendor_data = vendordata(req.body);
-    
-    Contractor.getPlan(vendor_data, function(err, pairdatasent) {
+    // (5PENDING) 
+
+    var datatosend = {
+        vendor_date: vendor_data,
+	vendor_sign: ''
+    };
  
-    console.log("pairdata="+pairdata);
-    var pairdata = JSON.parse(pairdatasent);
+    
+    Contractor.getPlan(datatosend, function(err, plandatasent) {
+ 
+    console.log("plandata="+plandata);
+    var datareceived = JSON.parse(plandatasent);
+
+    // 5PENDING, verify received data 
+
+    var plandata = datareceived.plan;
 
     console.log("err="+err);
         if (err){
@@ -82,24 +97,24 @@ exports.createPlan = function(req, res, next){
       
     var manager = new Manager ( 
         {
-        pairid : pairdata.pairid,
-        serverdata : pairdata.serverdata,
-        clientdata: pairdata.clientdata,
-        vendorid: pairdata.vendorid,
-        pinhash: pairdata.pinhash,
-        contractorid: pairdata.contractorid,
-        validatorhash: pairdata.validatorhash,
+        planid : plandata.planid,
+        serverdata : 'plandata.serverdata',  // Check with coupon what is needed
+        clientdata: 'plandata.clientdata',  // 7PENDING
+        vendorid: plandata.vendorid,
+        vendorwif: vendorwif,
+        contractorid: plandata.contractorid,
+        contractorsignature: datareceived.contractorsignature,
         done : false
     });
 
-     manager.save(function(err, pair) {
+     manager.save(function(err, plan) {
 
         if (err){
                 console.log("Manager create error: "+ err);
         	res.send(err);
         }
         else { 
-        Manager.find( {_id:pair._id}, function(err, pair) {
+        Manager.find( {_id:plan._id}, function(err, plan) {
 
             if (err){
                 console.log("Manager find error: "+ err);
@@ -107,7 +122,7 @@ exports.createPlan = function(req, res, next){
             }
             else {
                 
-            res.json(pair);
+            res.json(plan);
             }
 
         });
@@ -122,9 +137,9 @@ exports.createPlan = function(req, res, next){
 exports.deletePlan = function(req, res, next){
 
     Manager.remove({
-        _id : req.params.pair_id
-    }, function(err, pair) {
-        res.json(pair);
+        _id : req.params.plan_id
+    }, function(err, plan) {
+        res.json(plan);
     });
 
 }
@@ -132,24 +147,24 @@ exports.deletePlan = function(req, res, next){
 exports.getPlan = function(req, res, next){
 
     Manager.find({
-        _id : req.params.pair_id
-    }, function(err, pair) {
+        _id : req.params.plan_id
+    }, function(err, plan) {
         if (err){
                 res.send(err);
         }
-        res.json(pair);
+        res.json(plan);
     });
 }
 
 exports.serverInitialise = function(req, res, next){
 
     Manager.update({
-        _id : req.params.pair_id
-    }, function(err, pair) {
+        _id : req.params.plan_id
+    }, function(err, plan) {
         if (err){
                 res.send(err);
         }
-        res.json(pair);
+        res.json(plan);
     });
 }
 
@@ -157,48 +172,48 @@ exports.serverInitialise = function(req, res, next){
 exports.clientInitialise = function(req, res, next){
 
     Manager.update({
-        _id : req.params.pair_id
-    }, function(err, pair) {
+        _id : req.params.plan_id
+    }, function(err, plan) {
         if (err){
                 res.send(err);
         }
-        res.json(pair);
+        res.json(plan);
     });
 }
 
 exports.downloadPlan = function(req, res, next){
 
     Manager.find({
-        _id : req.params.pair_id
-    }, function(err, pair) {
+        _id : req.params.plan_id
+    }, function(err, plan) {
         if (err){
                 res.send(err);
         }
-        res.json(pair);
+        res.json(plan);
     });
 }
 
 exports.downloadServerPlan = function(req, res, next){
 
     Manager.find({
-        _id : req.params.pair_id
-    }, function(err, pair) {
+        _id : req.params.plan_id
+    }, function(err, plan) {
         if (err){
                 res.send(err);
         }
-        res.json(pair);
+        res.json(plan);
     });
 }
 
 exports.downloadClientPlan = function(req, res, next){
 
     Manager.find({
-        _id : req.params.pair_id
-    }, function(err, pair) {
+        _id : req.params.plan_id
+    }, function(err, plan) {
         if (err){
                 res.send(err);
         }
-        res.json(pair);
+        res.json(plan);
     });
 }
 

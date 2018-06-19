@@ -22,7 +22,7 @@ function getApi(api_endpoint, vendordata, callback) {
     })
 }
 
-exports.getPair = function (vendordata, callback) {
+exports.getPlan = function (vendordata, callback) {
 
         getApi("getplan", vendordata, function(err, body) {
 

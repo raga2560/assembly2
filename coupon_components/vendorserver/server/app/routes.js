@@ -43,7 +43,7 @@ module.exports = function(app){
     manageRoutes.get('/getPlans', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.getPlans);
 */
     manageRoutes.post('/createPlan', ManagerController.createPlan);
-    manageRoutes.get('/getPlans',  ManagerController.getPlans);
+//    manageRoutes.get('/getPlans',  ManagerController.getPlans);
     manageRoutes.get('/getAvailablePlans/:vendor_id',  ManagerController.availablePlans);
     manageRoutes.get('/getAvailableSchemes/:vendor_id',  ManagerController.availableSchemes);
 

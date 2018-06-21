@@ -46,8 +46,7 @@ function plancreate(vendorpopulated, vendorplan)
        contractorfixedfees: '0',
        vendorpercentagefees: '78',
        contractorpercentagefees: '77',
-       contractoraddress: '2728282',
-       contractorwif: 'shshsh'
+       contractoraddress: contractor.contractoraddress
    };
 
 
@@ -83,24 +82,34 @@ function validateplan(vendor, storedvendor)
 
 exports.createRelation = function(req, res, next){
 
+  if(req.populatatedvendor == null)
+  {
+     var err = {
+        error: "vendor does note exist "
+     }; 
+     return res.status(500).send(err);
+
+  }
+
   var validation =   validatevendor(req.body);
   if(validation.allow == false)
   {
      var err = {
         error: "vendor not allowed"
      }; 
-     return res.status(1000).send(err);
+     return res.status(500).send(err);
   }
 
-  var planvalidation =  validateplan(vendor, req.populatatedvendor)
+  var planvalidation =  validateplan(req.body, req.populatatedvendor)
   if(planvalidation.allow == false)
   {
      var err = {
         error: "vendor plan not matching "
      }; 
-     return res.status(1001).send(err);
+     return res.status(500).send(err);
   }
   
+  console.log("level-20");
 
   var plancreated =  plancreate(req.populatatedvendor)
   if(plancreate.allow == false)
@@ -108,49 +117,64 @@ exports.createRelation = function(req, res, next){
      var err = {
         error: "vendor plan create failed "
      }; 
-     return res.status(1001).send(err);
+     return res.status(500).send(err);
   }
    
   // plan validation can be done later
-
+  console.log("level-21");
   var length = 10;
   var plandata = {
         vendorid: req.body.vendor_data.vendorid,
+        planname: req.body.vendor_data.planname,
         vendorfixedfees: plancreated.vendorfixedfees,
         vendorpercentagefees: plancreated.vendorpercentagefees,
         vendoraddress: req.body.vendor_data.vendoraddress,
         planid:  'rel_'+Math.random().toString(36).substr(2, length),
-        vendorsignature: req.body.vendorsignature,
+        vendorsignature: 'req.body.vendorsignature',
         contractorid: contractor.contractorid,
-        contractorwif:  plancreated.contractorwif,
+        contractoraddress:  plancreated.contractoraddress,
         contractorfixedfees:  plancreated.contractorfixedfees,
         contractorpercentagefees: plancreated.contractorpercentagefees,
         done: false
     };
 
 //        res.json(c1);
+  console.log("level-22");
 
-    Relation.create( plandata
-    , function(err, plan) {
+    Relation.create( plandata , function(err, plan) {
+        console.log("err: "+ err);
+        console.log("plan: "+ plan);
 
         if (err){
-        	res.send(err);
+           var error = {
+		error: "Plan create failed:" + err
+            };
+
+      	    res.send(error);
         }
+        else {
        
-        Relation.find( {_id: plan._id}, { "contractorwif":0, "vendorsignature":0}, function(err, relation) {
+        Relation.find( {planid: plan.planid}, { "contractorwif":0, "vendorsignature":0}, function(err, relation) {
 
             if (err){
-            	res.send(err);
+              console.log(err);
+               var error = {
+		error: "No plan found in record"
+                };
+
+            	res.send(error);
             }
-                
+            else {    
             var plandata = {
-                plan: relation,
+                plan: relation[0],
                 contractorsignature: ''
             };
-            res.json(relation);
+            res.json(plandata);
+
+            }
 
         });
-
+      }
     });
 
 }

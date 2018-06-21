@@ -1,8 +1,9 @@
 var Manager = require('../models/manager');
 var Contractor = require('./contractor');
 var contract = require('../../config/contract.json')
+bitcoin = require('bitcoinjs-lib');
 
-exports.getPlans = function(req, res, next){
+exports.availablePlans = function(req, res, next){
 
     Manager.find(function(err, plans) {
 
@@ -32,7 +33,7 @@ function vendordata(vend, vendoraddress)
     */
 }
 
-exports.availablePlans = function(req, res, next){
+exports.availablePlans1 = function(req, res, next){
 
   var vendorid = req.params.vendor_id;
 
@@ -66,27 +67,28 @@ exports.availableSchemes = function(req, res, next){
  
        	res.send(availableschemes);
 }
+
 exports.createPlan = function(req, res, next){
    
-    var vendorwif = 'kkk';  // 7PENDING
-    var vendor_data = vendordata(req.body, vendorwif.getAddress());
+    // 7PENDING
+
+  var vendorwif = 'cRgnQe1TQngWfnsLo9YUExBjx3iVKNHu2ZfiRcUivATuojDdzdus';
+    var vendorkeypair = bitcoin.ECPair.fromWIF(
+ vendorwif,
+ bitcoin.networks.testnet);
+
+    var vendor_data = vendordata(req.body, vendorkeypair.getAddress());
    
     // (5PENDING) 
 
     var datatosend = {
-        vendor_date: vendor_data,
+        vendor_data: vendor_data,
 	vendor_sign: ''
     };
- 
+    
     
     Contractor.getPlan(datatosend, function(err, plandatasent) {
  
-    console.log("plandata="+plandata);
-    var datareceived = JSON.parse(plandatasent);
-
-    // 5PENDING, verify received data 
-
-    var plandata = datareceived.plan;
 
     console.log("err="+err);
         if (err){
@@ -94,12 +96,18 @@ exports.createPlan = function(req, res, next){
 // 		next;
         }
        else {
+    console.log("plandatasent="+ JSON.stringify(plandatasent));
+    //var datareceived = JSON.parse(plandatasent);
+    var datareceived = plandatasent;
+    // 5PENDING, verify received data 
+    var plandata = datareceived.plan;
       
     var manager = new Manager ( 
         {
         planid : plandata.planid,
-        serverdata : 'plandata.serverdata',  // Check with coupon what is needed
-        clientdata: 'plandata.clientdata',  // 7PENDING
+        planname : plandata.planname,
+        serverdata : JSON.stringify(plandata) ,  // Check with coupon what is needed
+        clientdata: JSON.stringify(plandata),   // 7PENDING
         vendorid: plandata.vendorid,
         vendorwif: vendorwif,
         contractorid: plandata.contractorid,
@@ -114,7 +122,7 @@ exports.createPlan = function(req, res, next){
         	res.send(err);
         }
         else { 
-        Manager.find( {_id:plan._id}, function(err, plan) {
+        Manager.find( {planid:plan.planid}, function(err, plan) {
 
             if (err){
                 console.log("Manager find error: "+ err);

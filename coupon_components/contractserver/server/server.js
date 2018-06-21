@@ -8,6 +8,7 @@ var cors = require('cors');
 var databaseConfig = require('./config/database');
 var router = require('./app/routes');
 
+app.use('/vendorfiles',express.static(__dirname + '/vendorfiles'));
 mongoose.connect(databaseConfig.url);
 
 app.listen(process.env.PORT || 8090);

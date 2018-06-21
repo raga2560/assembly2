@@ -1,4 +1,6 @@
 var contractorconfig = require('../../config/contractor.json');
+const fs = require('fs');
+
 
 
 var vendorfiledir = contractorconfig.vendorfiledir;
@@ -24,8 +26,7 @@ exports.createFile = function(vendorfilename, vendor){
    // vendor publickey. private-key used for only communication. Not not for money transfer 
    // contractor address is given when creating plans. So not seen here
 
-   writedata( vendorfilename, vendor.vendorsecret);
-
+   writedata( vendorfilename, vendor);
 }
 
 

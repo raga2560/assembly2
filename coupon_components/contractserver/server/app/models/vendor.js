@@ -8,16 +8,20 @@ var VendorSchema = new mongoose.Schema({
 		unique: true,
 		required: true
 	},
-	vendordata: {
+	vendordata: {   // Name and address
 		type: mongoose.Schema.Types.Mixed,
 		required: true
 	},
-	contract: {
+	contract: {    // Legal terms and condition
 		type: mongoose.Schema.Types.Mixed,
 		required: true
 	},
-	vendorsecret: {
-		type: mongoose.Schema.Types.Mixed,
+	vendorcomwif: {   // communication secret
+		type: String,
+		required: true
+	},
+	contractorcompubkey: {   // communication secret
+		type: String,
 		required: true
 	},
 	activate: {
@@ -34,19 +38,13 @@ var VendorSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	pin: {
-		type: String,
-		required: true
-	},
 	vendortype: {
 		type: String,
 		default: 'vendor101',
-		required: true
 	},
 	validationhash: {
 		type: String,
-		default: '',
-		required: true
+		default: ''
 	},
 	role: {
 		type: String,
@@ -62,6 +60,7 @@ VendorSchema.pre('save', function(next){
 
 	var coupon = this;
 	var SALT_FACTOR = 5;
+        next();
 // Check coupon is proper;
 /*
 	if(!user.isModified('password')){

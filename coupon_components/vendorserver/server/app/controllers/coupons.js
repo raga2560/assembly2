@@ -57,7 +57,7 @@ exports.createCoupon = function(req, res ){
         	res.send(err);
         }
          
-        Coupon.find(function(err, coupons) {
+        Coupon.find( {_id: coupon._id}, function(err, coupons) {
 
             if (err){
             	res.send(err);

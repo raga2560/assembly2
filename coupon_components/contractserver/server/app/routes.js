@@ -49,9 +49,9 @@ apiRoutes.use('/relation', relationRoutes);
 
 
 apiRoutes.use('/vendor', vendorRoutes);
-    vendorRoutes.post('/createVendor', requireAuth, AuthenticationController.roleAuthorization(['creator']), VendorController.createVendor);
+    vendorRoutes.post('/createVendor',  VendorController.createVendor);
     vendorRoutes.post('/pauseactivate', requireAuth, AuthenticationController.roleAuthorization(['creator']), VendorController.vendorPauseActivate);
-    vendorRoutes.get('/getVendors', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), VendorController.getVendors);
+    vendorRoutes.get('/getVendors',  VendorController.getVendors);
     vendorRoutes.get('/delete/:vendor_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), VendorController.deleteVendor);
     vendorRoutes.get('/getVendor/:vendor_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), VendorController.getVendor);
 

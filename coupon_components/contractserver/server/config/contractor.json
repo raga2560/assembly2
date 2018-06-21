@@ -1,7 +1,8 @@
 {
    "contractorid": "ABC1516",
-   "contractorincomeaddress": "i161717",
-   "vendorfiledir": "./",
+   "contractoraddress": "i161717",
+   "contractorcompubkey": "i161717",
+   "vendorfiledir": "vendorfiles",
    "contractorfixedfees": "20",
    "contractorpercentagefees": "20",
    "contractorspendingaddress": "i161717"

@@ -2,54 +2,72 @@ var mongoose = require('mongoose');
 
 var RelationSchema = new mongoose.Schema({
 
-	relationid: {
+	planid: {
 		type: String,
-		lowercase: true,
 		unique: true,
 		required: true
 	},
+	planname: {
+		type: String,
+		required: true
+        },
 	vendorid: {
 		type: String,
 		lowercase: true,
 		required: true
 	},
-	vendordata: {
+	vendorfixedfees: {
 		type: String,
-		lowercase: true,
 		required: true
 	},
-        contractorincomeaddress: {
+	vendorpercentagefees: {
+		type: String,
+		required: true
+	},
+        vendoraddress: {
                 type: String,
-                default: ''
+		required: true
         },
-        contractorspendingaddress: {
+        vendorsignature: {
                 type: String,
-                default: ''
+		required: true
         },
 
+	contractorid: {
+		type: String,
+		required: true
+	},
+	contractorfixedfees: {
+		type: String,
+		required: true
+	},
+	contractorpercentagefees: {
+		type: String,
+		required: true
+	},
+        contractoraddress: {
+                type: String,
+		required: true
+        },
+        vendorsignature: {
+                type: String,
+		required: true
+        },
 	activate: {
 		type: Boolean,
-		required: true,
 		default: false
 	},
 	paused: {
 		type: Boolean,
-		required: true,
 		default: false
-	},
-	pin: {
-		type: String,
-		required: true
 	},
 	relationtype: {
 		type: String,
 		default: 'relation101',
-		required: true
 	},
 	validationhash: {
 		type: String,
 		default: '',
-		required: true
 	},
 	role: {
 		type: String,
@@ -65,6 +83,7 @@ RelationSchema.pre('save', function(next){
 
 	var coupon = this;
 	var SALT_FACTOR = 5;
+        next();
 // Check coupon is proper;
 /*
 	if(!user.isModified('password')){

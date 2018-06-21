@@ -1,6 +1,7 @@
 var Vendor = require('../models/vendor');
 var Vendorfile = require('./vendorfile');
 var contractorconfig = require('../../config/contractor.json');
+bitcoin = require('bitcoinjs-lib');
 
 exports.getVendors = function(req, res, next){
 
@@ -34,7 +35,9 @@ function getvendorsecret(vendorid, vendor)
 
 function getcontract(vendor)
 {
-   if(vendor.contracttype == 'trial') {
+
+  // 10PENDING (get proper contract in place
+//   if(vendor.contracttype == 'trial') {
    var contract = {
     feesmin: 20,
     feesunit: 'USD',
@@ -44,20 +47,32 @@ function getcontract(vendor)
     contracttype: vendor.contracttype
    }
      return contract;
-   }
+//   }
 }
 
 
 function getvendorfilename(vendorid)
 {
 
-var vendorfiledir = contractconfig.vendorfiledir;
+var vendorfiledir = contractorconfig.vendorfiledir;
 
 
  return vendorfiledir + "/"+ vendorid+".json";
 }
 
-exports.createVendor = function(req, res, next){
+function getvendordata(datain)
+{
+   var vendor = {
+	name: datain.name,
+	address: datain.address,
+	phone: datain.phone,
+	email: datain.email,
+	contracttype: datain.contracttype
+   };
+   return vendor;
+}
+
+exports.createVendor = function(req, res){
 
     // Check vendor details, allocate a vendorid
     var length = 5;
@@ -66,36 +81,42 @@ exports.createVendor = function(req, res, next){
     // everytime we get new one, can only be modified in anothe routine
    
     // refer http://mongoosejs.com/docs/schematypes.html for mixed types
+   var vendor = req.body;
    var  vendorid  =  'ven_'+Math.random().toString(36).substr(2, length);
    var vendorsecret = getvendorsecret(vendorid, req.body);
    var contract = getcontract(req.body);
    var vendorfilename = getvendorfilename(vendorid);
+   var vendordata = getvendordata(vendor);
+   var vendorcomwif = bitcoin.ECPair.makeRandom().toWIF();
 
     Vendor.create({
         vendorid : vendorid,
-        vendordata: { any: req.body.vendor},
-        vendorsecret: vendorsecret,
+        vendordata: vendordata,
+        vendorcomwif: vendorcomwif,
+        contractorcompubkey: contractorconfig.contractorcompubkey,
         contract :  contract,
         vendorfilename :  vendorfilename,
-        contractorid: contractorconfig.contractorid,
         done : false
     }, function(err, vendor) {
 
         if (err){
+               
         	res.send(err);
-        }
+        } else{
        
-        Vendor.find({_id:vendor_id}, function(err, vendor) {
+        Vendor.find({_id:vendor._id}, function(err, vendor) {
 
             if (err){
             	res.send(err);
             }
+            else {
             Vendorfile.createFile(vendorfilename, vendor);
                 
             res.json(vendor);
+            }
 
-        });
-
+           });
+      }
     });
 
 }
@@ -111,15 +132,23 @@ exports.deleteVendor = function(req, res, next){
 }
 
 exports.populateVendor = function(req, res, next){
+   
+    console.log("message received="+ JSON.stringify(req.body)); 
 
     Vendor.find({
-        _id : req.body.vendor_data.vendorid
+        vendorid : req.body.vendor_data.vendorid
     }, function(err, vendor) {
         if (err){
-                res.send(err);
+           var err1 = {
+
+		error: "Cannot find vendor"
+           };
+           res.send(err1);
         }
-        req.vendorpopulated = vendor;
+        else {
+        req.populatatedvendor = vendor;
         next();
+        }
     });
 }
 

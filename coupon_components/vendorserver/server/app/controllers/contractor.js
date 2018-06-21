@@ -1,4 +1,4 @@
-var request = require('request')
+var request = require('request-promise')
 var contract = require('../../config/contract.json')
 
 // get address info
@@ -9,7 +9,35 @@ var url = contract.contractorurl;
 function getApi(api_endpoint, vendordata, callback) {
     console.log(url);    
 
-    request.post(url + '/api/relation/createRelation', JSON.stringify(vendordata), function (error, response, body) {
+
+const options = {
+  method: 'POST',
+  uri: url + '/api/relation/createRelation',
+  body: vendordata,
+  json: true 
+    // JSON stringifies the body automatically
+}
+request(options)
+  .then(function (response) {
+    // Handle the response
+        console.log("response:"+response); 
+        var abc = {
+		a:1
+        }; 
+        return callback(null, response)
+  })
+  .catch(function (err) {
+    // Deal with the error
+        console.log("err:"+ JSON.stringify(err)); 
+         var err1 = {
+		error: "Some error "
+         };
+       return callback(err);
+  })
+
+/*
+
+    request.post(url + '/api/relation/createRelation', config , function (error, response, body) {
         if (error) {
             return callback(error)
         }
@@ -20,6 +48,7 @@ function getApi(api_endpoint, vendordata, callback) {
         console.log('Body:', body)
         return callback(null, body)
     })
+  */
 }
 
 exports.getPlan = function (vendordata, callback) {

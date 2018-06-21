@@ -4,18 +4,19 @@ var ManagerSchema = new mongoose.Schema({
 
 	planid: {
 		type: String,
-		lowercase: true,
 		unique: true,
+                required: true
+	},
+	planname: {
+		type: String,
                 required: true
 	},
 	serverdata: {
 		type: String,
-		lowercase: true,
                 required: true
 	},
 	clientdata: {
 		type: String,
-		lowercase: true,
                 required: true
 	},
 	activate: {
@@ -26,9 +27,8 @@ var ManagerSchema = new mongoose.Schema({
 		type: Boolean,
 		default: false
 	},
-	pinhash: {
-		type: String,
-                required: true
+	contractorsignature: {
+		type: String
 	},
 	plantype: {
 		type: String,
@@ -44,8 +44,7 @@ var ManagerSchema = new mongoose.Schema({
 	},
 	validatorhash: {
 		type: String,
-		default: '',
-                required: true
+		default: ''
 	},
 	role: {
 		type: String,

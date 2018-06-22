@@ -46,6 +46,7 @@ apiRoutes.use('/relation', relationRoutes);
     relationRoutes.get('/:relation_id', requireAuth, AuthenticationController.roleAuthorization(['creator']), RelationController.getRelation);
     relationRoutes.get('/getRelations', requireAuth, AuthenticationController.roleAuthorization(['creator']), RelationController.getRelations);
     relationRoutes.post('/createRelation',  VendorController.populateVendor, RelationController.createRelation); // to be changed later to relation
+    relationRoutes.get('/getSchemes/:vendorid',   RelationController.getSchemes); // to be changed later to relation
 
 
 apiRoutes.use('/vendor', vendorRoutes);

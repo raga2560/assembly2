@@ -67,3 +67,21 @@ exports.getPlan = function (vendordata, callback) {
          }
         });
 }
+
+exports.getSchemes = function (vendorid, callback) {
+
+    request.get(url + '/api/relation/getSchemes/'+ vendorid , function (error, response, body) {
+        if (error) {
+            return callback(error)
+        }
+        if (typeof body === 'string') {
+            //body = JSON.parse(body)
+        }
+        console.log('Status:', response.statusCode)
+        console.log('Body:', body)
+        return callback(null, body)
+    })
+  
+
+}
+

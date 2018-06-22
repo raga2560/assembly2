@@ -22,6 +22,21 @@ exports.getRelations = function(req, res, next){
 
 }
 
+exports.getSchemes = function(req, res, next){
+
+ console.log("test"+JSON.stringify(req.body));
+ var availableschemes=  [
+        {name: "bitcoin_30", desc: "30% plan with bitcoin ", vendor: "70", contractor:"30"},
+        {name: "bitcoin_50", desc: "50% plan with bitcoin ", vendor:"50", contractor: "50"}
+
+  ];
+
+
+   res.json(availableschemes);
+
+
+}
+
 function validatevendor(vendor)
 {
 

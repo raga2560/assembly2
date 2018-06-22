@@ -58,14 +58,16 @@ exports.availableSchemes = function(req, res, next){
 
   var vendorid = req.params.vendor_id;
 
- // These to be migrated to contractorside
- var availableschemes= [
-	{name: "bitcoin_30", desc: "30% plan with bitcoin ", vendor: "70", contractor:"30"},
-	{name: "bitcoin_50", desc: "50% plan with bitcoin ", vendor:"50", contractor: "50"}
-
-  ];
  
-       	res.send(availableschemes);
+    Contractor.getSchemes(vendorid, function(err, schemedatasent) {
+ 
+
+    console.log("err="+err);
+        if (err){
+        	res.send(err);
+        }
+       	res.send(schemedatasent);
+   })
 }
 
 exports.createPlan = function(req, res, next){

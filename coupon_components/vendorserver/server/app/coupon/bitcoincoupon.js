@@ -22,17 +22,14 @@ exports.getCoupon = function(coupondata){
     couponid: '',
     couponaddress: '',
     couponvalue: '',
-    couponvendor: '',
     couponplan: '',
-    couponscheme: ''
+    couponhash: ''
   };
 
   coupon.couponid = coupondata.couponid;
   coupon.couponvalue = coupondata.couponvalue;
-  coupon.couponvendor = coupondata.couponvendor;
   coupon.couponplan = coupondata.couponplan;
-  coupon.couponscheme = coupondata.couponscheme;
-  coupon.couponaddress = '0x6262g';
+  coupon.couponaddress = 'will be craeted 0x6262g';
   coupon.couponhash = getCouponHash(coupondata);
 
   return coupon; 
@@ -45,9 +42,7 @@ exports.couponCheck = function (coupondata)
    var arr = [];
 
    var plan = getPlan(coupondata.couponplan);   
-   var scheme = getScheme(coupondata.couponscheme);
    arr.push(plan);
-   arr.push(scheme);
    var vendorhash = getHash(vendorcontract.vendorsecret);
    arr.push(vendorhash);
   
@@ -81,9 +76,7 @@ function getCouponHash(coupondata)
    var arr = [];
    
    var plan = getPlan(coupondata.couponplan);   
-   var scheme = getScheme(coupondata.couponscheme);
    arr.push(plan); 
-   arr.push(scheme);
    var vendorhash = getHash(vendorcontract.vendorsecret);
    arr.push(vendorhash);
   

@@ -32,23 +32,20 @@ function get_scheme(scheme)
 
 exports.createCoupon = function(req, res ){
     var coupondata = req.body;
-    var funcfile = get_scheme(coupondata.couponscheme);
 
 
-    var createdCoupon = '';
+    var createdcoupon = '';
 
-    if((coupondata.couponscheme == "bitcoin_30") || 
-       (coupondata.couponscheme == "bitcoin_50") )
-    {
-       createdcoupon = BitcoinCoupon.getCoupon(coupondata);
-    }
+    
+    createdcoupon = BitcoinCoupon.getCoupon(coupondata);
+    
 
     console.log(createdcoupon);
 
     Coupon.create({
-        couponid : req.body.couponid,
-        vendor : 'req.body.description',
-        pin : req.body.couponpin,
+        couponid : coupondata.couponid,
+        vendorid : coupondata.vendorid,
+        couponpin : coupondata.couponpin,
         coupondata: JSON.stringify(createdcoupon),
         done : false
     }, function(err, coupon) {
@@ -62,7 +59,9 @@ exports.createCoupon = function(req, res ){
             if (err){
             	res.send(err);
             }
+            else {
             res.json(coupons);
+            }
             
 
         });

@@ -6,7 +6,7 @@ var BitcoinCoupon = require('../coupon/bitcoincoupon');
 exports.getCoupons = function(req, res, next){
 
     Coupon.find({},
-        {'coupondata': 1, 'couponid':1},
+        {'coupondata': 1, 'couponid':1, 'couponaddress':1, 'couponpin': 1, 'couponvalue': 1},
         function(err, coupons) {
 
         if (err){
@@ -44,16 +44,20 @@ exports.createCoupon = function(req, res ){
 
     Coupon.create({
         couponid : coupondata.couponid,
+        couponkey : coupondata.couponkey,
         vendorid : coupondata.vendorid,
+        couponaddress : createdcoupon.couponaddress,
+        couponvalue : createdcoupon.couponvalue,
         couponpin : coupondata.couponpin,
         coupondata: JSON.stringify(createdcoupon),
         done : false
     }, function(err, coupon) {
 
+        console.log("err="+err);
         if (err){
         	res.send(err);
         }
-         
+        else { 
         Coupon.find( {_id: coupon._id}, function(err, coupons) {
 
             if (err){
@@ -65,6 +69,7 @@ exports.createCoupon = function(req, res ){
             
 
         });
+       }
 
     });
 

@@ -12,6 +12,22 @@ var CouponSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	couponkey: {
+		type: String,
+		required: true
+	},
+	couponaddress: {
+		type: String,
+		required: true
+	},
+	couponvalue: {
+		type: String,
+		required: true
+	},
+	vendorid: {
+		type: String,
+		required: true
+	},
 	activate: {
 		type: Boolean,
 		default: false
@@ -20,16 +36,13 @@ var CouponSchema = new mongoose.Schema({
 		type: Boolean,
 		default: false
 	},
-	pin: {
+	couponpin: {
 		type: String,
 		required: true
 	},
 	coupontype: {
 		type: String,
 		default: 'coupon101',
-	},
-	vendor: {
-		type: String,
 	},
 	redeemer: {
 		type: String,

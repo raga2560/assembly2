@@ -16,11 +16,20 @@ exports.getHash = function(str){
 
 }
 
+
+function getHash (str)
+{
+  var buf = Buffer.from(str); 
+  return bitcoin.crypto.sha256(buf);  
+
+}
+
 exports.getCoupon = function(coupondata){
 
   var coupon = {
     couponid: '',
     couponaddress: '',
+    couponkey: '',
     couponvalue: '',
     couponplan: '',
     couponhash: ''
@@ -28,9 +37,10 @@ exports.getCoupon = function(coupondata){
 
   coupon.couponid = coupondata.couponid;
   coupon.couponvalue = coupondata.couponvalue;
+  coupon.couponkey = coupondata.couponkey;
   coupon.couponplan = coupondata.couponplan;
   coupon.couponaddress = 'will be craeted 0x6262g';
-  coupon.couponhash = getCouponHash(coupondata);
+  coupon.couponhash = getCouponHash(coupondata).toString('hex');
 
   return coupon; 
    
@@ -81,7 +91,7 @@ function getCouponHash(coupondata)
    arr.push(vendorhash);
   
    var str = JSON.stringify(arr); 
-   var hash = BitcoinCoupon.getHash(str);
+   var hash = getHash(str);
 
    return hash; 
 }

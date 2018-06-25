@@ -57,6 +57,8 @@ module.exports = function(app){
     couponRoutes.get('/getCoupons',  CouponController.getCoupons);
     couponRoutes.post('/createCoupon',  CouponController.createCoupon);
     couponRoutes.post('/getCouponBalance',  CouponController.getCouponBalance);
+    couponRoutes.post('/getChargingBalance',  CouponController.getChargingBalance);
+    couponRoutes.post('/getFeesBalance',  CouponController.getFeesBalance);
     couponRoutes.get('/delete/:coupon_id', requireAuth, AuthenticationController.roleAuthorization(['editor']), CouponController.deleteCoupon);
 
     couponRoutes.get('/getCoupon/:coupon_id',  CouponController.getCoupon);

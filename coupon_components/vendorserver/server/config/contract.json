@@ -7,6 +7,8 @@
     "vendorid": "ven_gu16m",
     "vendorsecret": "62772727",
     "bitcoinserverurl":  "https://api.blockcypher.com/v1/btc/test3",
+    "chargingaddress":  "2N5ZyMz5xmt47znM9CCKnrLbXmymGLknus9",
+    "feesaddress":  "2N5ZyMz5xmt47znM9CCKnrLbXmymGLknus9",
     "checksum": "727272"
   
 }

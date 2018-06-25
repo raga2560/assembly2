@@ -1,5 +1,6 @@
 var Coupon = require('../models/coupon');
 var coupon_scheme = require('../coupon_scheme.json');
+var contract = require('../../config/contract.json');
 
 var BitcoinCoupon = require('../coupon/bitcoincoupon');
 
@@ -149,6 +150,28 @@ exports.getCoupon = function(req, res, next){
         }
     });
 }
+
+exports.getChargingBalance = function(req, res, next){
+
+   var address = contract.chargingaddress;
+
+    BitcoinCoupon.getCouponBalance(address,  function (bal) {
+
+    res.json (bal);
+
+    });
+}
+
+exports.getFeesBalance = function(req, res, next){
+
+   var address = contract.feesaddress;
+
+    BitcoinCoupon.getCouponBalance(address,  function (bal) {
+
+    res.json (bal);
+   });
+}
+
 
 exports.downloadCoupon = function(req, res, next){
 

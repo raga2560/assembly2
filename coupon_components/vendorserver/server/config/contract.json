@@ -6,6 +6,7 @@
     "secret": "22727277ab262627",
     "vendorid": "ven_gu16m",
     "vendorsecret": "62772727",
+    "bitcoinserverurl":  "https://api.blockcypher.com/v1/btc/test3",
     "checksum": "727272"
   
 }

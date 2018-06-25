@@ -1,4 +1,5 @@
 bitcoin = require('bitcoinjs-lib');
+request = require('request');
 var coupon_scheme = require('../coupon_scheme.json');
 var vendorcontract = require('../../config/contract.json');
 
@@ -96,3 +97,30 @@ function getCouponHash(coupondata)
    return hash; 
 }
 
+
+
+exports.getCouponBalance = function (couponaddress, callback)
+{
+
+   var url = vendorcontract.bitcoinserverurl +"/addrs/"+couponaddress;
+
+   request.get(url + '/full', function (error, response, body) {
+        if (error) {
+            return callback(error)
+        }
+        if (typeof body === 'string') {
+            body = JSON.parse(body)
+        }
+        console.log('Status:', response.statusCode)
+        console.log('Body:', body)
+        var balance = {
+          balance: body.balance,
+          address: body.address,
+          unconfirmed_balance: body.unconfirmed_balance
+
+        };
+        return callback(balance)
+    })
+
+
+}

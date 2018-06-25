@@ -122,15 +122,31 @@ exports.validateCoupon = function(req, res, next){
 
 }
 
+exports.getCouponBalance = function(req, res, next){
+ 
+    var address = req.body.couponaddress;
+ 
+    BitcoinCoupon.getCouponBalance(address,  function (bal) {
+
+    res.json (bal);
+
+    });
+
+}
+
 exports.getCoupon = function(req, res, next){
 
     Coupon.find({
-        couponid : req.params.couponid}, {'coupondata': 1},
+        couponid : req.params.coupon_id}, {'coupondata': 1,
+			 'couponaddress': 1},
      function(err, coupon) {
         if (err){
                 res.send(err);
         }
-        res.json(coupon);
+        else {
+        req.coupon = coupon[0]; // useful when we need to process coupon in next call
+        res.json(coupon[0]);
+        }
     });
 }
 

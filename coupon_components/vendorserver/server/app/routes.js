@@ -1,7 +1,7 @@
 var AuthenticationController = require('./controllers/authentication'),  
     TodoController = require('./controllers/todos'),  
     CouponController = require('./controllers/coupons'),  
-    ManagerController = require('./controllers/manager'),  
+    PlanmanagerController = require('./controllers/planmanager'),  
     VendoraddrController = require('./controllers/vendoraddr'),  
     express = require('express'),
     passportService = require('../config/passport'),
@@ -36,22 +36,22 @@ module.exports = function(app){
     todoRoutes.post('/', requireAuth, AuthenticationController.roleAuthorization(['creator','editor']), TodoController.createTodo);
     todoRoutes.delete('/:todo_id', requireAuth, AuthenticationController.roleAuthorization(['editor']), TodoController.deleteTodo);
 
-    apiRoutes.use('/manager', manageRoutes);
-    //manageRoutes.post('/', requireAuth, AuthenticationController.roleAuthorization(['creator']), ManagerController.createPlan);
+    apiRoutes.use('/planmanager', manageRoutes);
+    //manageRoutes.post('/', requireAuth, AuthenticationController.roleAuthorization(['creator']), PlanmanagerController.createPlan);
 /*
-    manageRoutes.post('/serverinit', requireAuth, AuthenticationController.roleAuthorization(['creator']), ManagerController.serverInitialise);
-    manageRoutes.post('/clientinit', requireAuth, AuthenticationController.roleAuthorization(['reader']), ManagerController.clientInitialise);
-    manageRoutes.get('/getPlans', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.getPlans);
+    manageRoutes.post('/serverinit', requireAuth, AuthenticationController.roleAuthorization(['creator']), PlanmanagerController.serverInitialise);
+    manageRoutes.post('/clientinit', requireAuth, AuthenticationController.roleAuthorization(['reader']), PlanmanagerController.clientInitialise);
+    manageRoutes.get('/getPlans', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), PlanmanagerController.getPlans);
 */
-    manageRoutes.post('/createPlan', VendoraddrController.createWif, ManagerController.createPlan);
-//    manageRoutes.get('/getPlans',  ManagerController.getPlans);
-    manageRoutes.get('/getAvailablePlans/:vendor_id',  ManagerController.availablePlans);
-    manageRoutes.get('/getAvailableSchemes/:vendor_id',  ManagerController.availableSchemes);
+    manageRoutes.post('/createPlan', VendoraddrController.createWif, PlanmanagerController.createPlan);
+//    manageRoutes.get('/getPlans',  PlanmanagerController.getPlans);
+    manageRoutes.get('/getAvailablePlans/:vendor_id',  PlanmanagerController.availablePlans);
+    manageRoutes.get('/getAvailableSchemes/:vendor_id',  PlanmanagerController.availableSchemes);
 
-    manageRoutes.get('/detail/:pair_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.getPlan);
-    manageRoutes.get('/delete/:pair_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.deletePlan);
-    manageRoutes.get('/plan/server/:pair_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.downloadServerPlan);
-    manageRoutes.get('/plan/client/:pair_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.downloadClientPlan);
+    manageRoutes.get('/detail/:pair_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), PlanmanagerController.getPlan);
+    manageRoutes.get('/delete/:pair_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), PlanmanagerController.deletePlan);
+    manageRoutes.get('/plan/server/:pair_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), PlanmanagerController.downloadServerPlan);
+    manageRoutes.get('/plan/client/:pair_id', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), PlanmanagerController.downloadClientPlan);
 
 
     apiRoutes.use('/coupon', couponRoutes);

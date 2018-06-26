@@ -51,16 +51,32 @@ function validatevendor(vendor)
 
 }
 
-function plancreate(vendorpopulated, vendorplan)
+function plancreate(vendorplan, vendorpopulated )
 {
    // based on 50% fees scheme, calculate share of contract  (6PENDING)
    // recalculate vendor fees as part of scheme
 
+   var factor = 1;
+   if(vendorplan.planscheme == "bitcoin_30")
+   {
+	factor = 0.3
+   }else if(vendorplan.planscheme == "bitcoin_50")
+   {
+	factor = 0.5
+
+   }
+
+//  if fixed = 10, 0.3 * 10 = 3
+   console.log(JSON.stringify(vendorplan));
+
+   var vendorfixedfees = Number(vendorplan.vendorfixedfees);
+   var vendorpercentagefees = Number(vendorplan.vendorpercentagefees);
+
    var plan = {
-       vendorfixedfees: '67',
-       contractorfixedfees: '0',
-       vendorpercentagefees: '78',
-       contractorpercentagefees: '77',
+       vendorfixedfees: ((vendorfixedfees * (1-factor))).toFixed(0).toString() ,
+       contractorfixedfees: ((vendorfixedfees * (factor))).toFixed(0).toString() ,
+       vendorpercentagefees: ((vendorpercentagefees * (1-factor))).toFixed(0).toString() ,
+       contractorpercentagefees: ((vendorpercentagefees * (factor))).toFixed(0).toString() ,
        contractoraddress: contractor.contractoraddress
    };
 
@@ -126,7 +142,7 @@ exports.createRelation = function(req, res, next){
   
   console.log("level-20");
 
-  var plancreated =  plancreate(req.populatatedvendor)
+  var plancreated =  plancreate(req.body.vendor_data, req.populatatedvendor)
   if(plancreate.allow == false)
   {
      var err = {

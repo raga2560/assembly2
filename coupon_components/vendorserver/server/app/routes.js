@@ -2,6 +2,7 @@ var AuthenticationController = require('./controllers/authentication'),
     TodoController = require('./controllers/todos'),  
     CouponController = require('./controllers/coupons'),  
     ManagerController = require('./controllers/manager'),  
+    VendoraddrController = require('./controllers/vendoraddr'),  
     express = require('express'),
     passportService = require('../config/passport'),
     passport = require('passport');
@@ -15,7 +16,7 @@ module.exports = function(app){
         authRoutes = express.Router(),
         todoRoutes = express.Router();
         couponRoutes = express.Router();
-        manageRoutes = express.Router();
+	manageRoutes = express.Router();
 
     // Auth Routes
     apiRoutes.use('/auth', authRoutes);
@@ -42,7 +43,7 @@ module.exports = function(app){
     manageRoutes.post('/clientinit', requireAuth, AuthenticationController.roleAuthorization(['reader']), ManagerController.clientInitialise);
     manageRoutes.get('/getPlans', requireAuth, AuthenticationController.roleAuthorization(['reader','creator','editor']), ManagerController.getPlans);
 */
-    manageRoutes.post('/createPlan', ManagerController.createPlan);
+    manageRoutes.post('/createPlan', VendoraddrController.createWif, ManagerController.createPlan);
 //    manageRoutes.get('/getPlans',  ManagerController.getPlans);
     manageRoutes.get('/getAvailablePlans/:vendor_id',  ManagerController.availablePlans);
     manageRoutes.get('/getAvailableSchemes/:vendor_id',  ManagerController.availableSchemes);

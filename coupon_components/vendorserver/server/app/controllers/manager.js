@@ -73,13 +73,12 @@ exports.availableSchemes = function(req, res, next){
 exports.createPlan = function(req, res, next){
    
     // 7PENDING
+  console.log(JSON.stringify(req.vend));
 
-  var vendorwif = 'cRgnQe1TQngWfnsLo9YUExBjx3iVKNHu2ZfiRcUivATuojDdzdus';
-    var vendorkeypair = bitcoin.ECPair.fromWIF(
- vendorwif,
- bitcoin.networks.testnet);
+  var vendorwif = req.vend.vendorwif;
+  var vendoraddress = req.vend.vendoraddress;
 
-    var vendor_data = vendordata(req.body, vendorkeypair.getAddress());
+    var vendor_data = vendordata(req.body, vendoraddress );
    
     // (5PENDING) 
 

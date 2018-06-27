@@ -35,21 +35,21 @@ exports.createWif = function(req, res, next){
         done : false
     });
 
-     contractaddrl.save(function(err, vend) {
+     contractaddrl.save(function(err, cont) {
 
         if (err){
                 console.log("Contractaddr create error: "+ err);
         	return next(err);
         }
         else { 
-        Contractaddr.find( {_id:vend._id}, function(err, vend) {
+        Contractaddr.find( {_id:cont._id}, function(err, cont) {
 
             if (err){
                 console.log("Contractaddr find error: "+ err);
             	return next(err);
             }
             else {
-            req.vend = vend[0];        
+            req.contract = cont[0];        
 	    return next();
             }
 

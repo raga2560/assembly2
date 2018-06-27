@@ -1,8 +1,11 @@
 bitcoin = require('bitcoinjs-lib');
+compositekeylib = require('./compositekeylib');
+
 request = require('request');
 var coupon_scheme = require('../coupon_scheme.json');
 var vendorcontract = require('../../config/contract.json');
 
+var globalnetwork = bitcoin.networks.testnet;
 
 exports.getAddress = function(){
 
@@ -40,11 +43,31 @@ exports.getCoupon = function(coupondata){
   coupon.couponvalue = coupondata.couponvalue;
   coupon.couponkey = coupondata.couponkey;
   coupon.couponplan = coupondata.couponplan;
-  coupon.couponaddress = 'will be craeted 0x6262g';
   coupon.couponhash = getCouponHash(coupondata).toString('hex');
+  
+  coupon.couponaddress = getCouponAddress(coupondata);
 
   return coupon; 
    
+}
+
+function getCouponAddress(coupondata   )
+{
+  var couponstub = {
+   couponhash: coupondata.couponhash, 
+   couponpin: coupondata.couponpin 
+  };
+
+  var Pin = JSON.stringify(couponstub);
+  var Pinkey = Buffer.from(Pin);
+  var uidkey = Buffer.from(coupondata.couponkey);
+
+   var docaddr = compositekeylib.getBufControlCodeAddress(Pinkey,
+                uidkey,
+                globalnetwork);
+   console.log("docaddr = "+docaddr);
+
+   return docaddr;
 }
 
 

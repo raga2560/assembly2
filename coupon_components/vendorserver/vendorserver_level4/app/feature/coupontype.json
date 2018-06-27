@@ -1,0 +1,26 @@
+{
+  "types": [{
+     "type" : "bitcoin101",
+     "incomeaddress" : "bitcoinaddress",
+     "accountaddress" : "bitcoinaddress",
+     "feesaddress" : "bitcoinaddress"
+ 
+     },
+     {
+     "type" : "fiat101",
+     "incomeaddress" : "fiataccount",
+     "accountaddress" : "fiataccount",
+     "feesaddress" : "bitcoin",
+     "unit" : "Rs"
+  
+     },
+     {
+     "type" : "notional101",
+     "incomeaddress" : "tokenaddress",
+     "accountaddress" : "tokenaddress",
+     "feesaddress" : "bitcoin",
+     "unit" : "Rx"
+     }
+   ]
+
+}

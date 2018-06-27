@@ -1,0 +1,17 @@
+
+{
+  "oneplan": {
+     "type" : "bitcoin101",
+     "plan" : "plan6b",
+     "vendordata" : "vendor01010",
+     "contractordata" : "contract01010",
+     "contractorpercent" : "20",
+     "percentincome" : "6",		// 6 percent
+     "fixedincome" : "60",		// 60 units 
+     "minimum" : "1000",        // as required
+     "maximum" : "1000",        // as required
+     "fees" : "20"   // units of fees
+ 
+     }
+
+}

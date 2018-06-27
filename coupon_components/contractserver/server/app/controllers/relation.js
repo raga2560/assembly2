@@ -76,8 +76,7 @@ function plancreate(vendorplan, vendorpopulated )
        vendorfixedfees: ((vendorfixedfees * (1-factor))).toFixed(0).toString() ,
        contractorfixedfees: ((vendorfixedfees * (factor))).toFixed(0).toString() ,
        vendorpercentagefees: ((vendorpercentagefees * (1-factor))).toFixed(0).toString() ,
-       contractorpercentagefees: ((vendorpercentagefees * (factor))).toFixed(0).toString() ,
-       contractoraddress: contractor.contractoraddress
+       contractorpercentagefees: ((vendorpercentagefees * (factor))).toFixed(0).toString() 
    };
 
 
@@ -112,6 +111,8 @@ function validateplan(vendor, storedvendor)
 }
 
 exports.createRelation = function(req, res, next){
+
+  var contractoraddress = req.contract.contractaddress;
 
   if(req.populatatedvendor == null)
   {
@@ -163,7 +164,7 @@ exports.createRelation = function(req, res, next){
         planid:  'rel_'+Math.random().toString(36).substr(2, length),
         vendorsignature: 'req.body.vendorsignature',
         contractorid: contractor.contractorid,
-        contractoraddress:  plancreated.contractoraddress,
+        contractoraddress:  contractoraddress,
         contractorfixedfees:  plancreated.contractorfixedfees,
         contractorpercentagefees: plancreated.contractorpercentagefees,
         done: false

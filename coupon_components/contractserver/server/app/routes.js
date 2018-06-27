@@ -2,6 +2,7 @@ var AuthenticationController = require('./controllers/authentication'),
     TodoController = require('./controllers/todos'),  
     VendorController = require('./controllers/vendor'),  
     RelationController = require('./controllers/relation'),  
+    ContractaddrController = require('./controllers/contractaddr'),  
     express = require('express'),
     passportService = require('../config/passport'),
     passport = require('passport');
@@ -45,7 +46,7 @@ apiRoutes.use('/relation', relationRoutes);
     relationRoutes.post('/relationpauseactivate', requireAuth, AuthenticationController.roleAuthorization(['creator']), RelationController.relationPauseActivate);
     relationRoutes.get('/:relation_id', requireAuth, AuthenticationController.roleAuthorization(['creator']), RelationController.getRelation);
     relationRoutes.get('/getRelations',  RelationController.getRelations);
-    relationRoutes.post('/createRelation',  VendorController.populateVendor, RelationController.createRelation); // to be changed later to relation
+    relationRoutes.post('/createRelation',  VendorController.populateVendor, ContractaddrController.createWif, RelationController.createRelation); // to be changed later to relation
     relationRoutes.get('/getSchemes/:vendorid',   RelationController.getSchemes); // to be changed later to relation
 
 

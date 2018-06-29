@@ -1,6 +1,8 @@
 var AuthenticationController = require('./controllers/authentication'),  
     TodoController = require('./controllers/todos'),  
     CouponController = require('./controllers/coupons'),  
+    PaymentsreceivedController = require('./controllers/paymentsreceived'),  
+    PaymentsmadeController = require('./controllers/paymentsmade'),  
     PlanmanagerController = require('./controllers/planmanager'),  
     VendoraddrController = require('./controllers/vendoraddr'),  
     express = require('express'),
@@ -16,6 +18,8 @@ module.exports = function(app){
         authRoutes = express.Router(),
         todoRoutes = express.Router();
         couponRoutes = express.Router();
+        paymentsreceivedRoutes = express.Router();
+        paymentsmadeRoutes = express.Router();
 	manageRoutes = express.Router();
 
     // Auth Routes
@@ -68,6 +72,15 @@ module.exports = function(app){
     couponRoutes.post('/redeem/:coupon_id', requireAuth, AuthenticationController.roleAuthorization(['reader']), CouponController.redeemCoupon);
     couponRoutes.post('/validate/:coupon_id', requireAuth, AuthenticationController.roleAuthorization(['reader']), CouponController.validateCoupon);
 
+    apiRoutes.use('/paymentmade', paymentmadeRoutes);
+    paymentmadeRoutes.get('/getPaymentsmade',  PaymentmadeController.getPaymentsmade);
+    paymentmadeRoutes.post('/createPayment',  PaymentmadeController.createPayment);
+    paymentmadeRoutes.post('/getPaymentBalance',  PaymentmadeController.getPaymentBalance);
+    paymentmadeRoutes.post('/getChargingBalance',  PaymentmadeController.getChargingBalance);
+
+    apiRoutes.use('/paymentreceived', paymentreceivedRoutes);
+    paymentreceivedRoutes.get('/getPaymentreceived/:payment_id',  PaymentreceivedController.getPaymentreceived);
+    paymentreceivedRoutes.post('/accept/:payment_id',  PaymentreceivedController.redeemCoupon);
     // Set up routes
     app.use('/api', apiRoutes);
 

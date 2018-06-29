@@ -2,9 +2,9 @@ var Paymentreceived = require('../models/paymentreceived');
 var paymentreceived_scheme = require('../paymentreceived_scheme.json');
 var contract = require('../../config/contract.json');
 
-var BitcoinPaymentreceived = require('../paymentreceived/bitcoinpaymentreceived');
+var BitcoinPaymentreceived = require('../payment/bitcoinpayment');
 
-exports.getPaymentreceiveds = function(req, res, next){
+exports.getPaymentsreceived = function(req, res, next){
 
     Paymentreceived.find({},
         {'paymentreceiveddata': 1, 'paymentreceivedid':1, 'paymentreceivedaddress':1, 'paymentreceivedpin': 1, 'paymentreceivedvalue': 1},
@@ -95,7 +95,7 @@ exports.activatePaymentreceived = function(req, res, next){
     });
 
 }
-exports.redeemPaymentreceived = function(req, res, next){
+exports.acceptPayment = function(req, res, next){
     if(validatePaymentreceived(req.body) == false)
     {
        var err = {

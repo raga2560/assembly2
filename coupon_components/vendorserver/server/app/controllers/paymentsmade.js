@@ -2,9 +2,9 @@ var Paymentmade = require('../models/paymentmade');
 var paymentmade_scheme = require('../paymentmade_scheme.json');
 var contract = require('../../config/contract.json');
 
-var BitcoinPaymentmade = require('../paymentmade/bitcoinpaymentmade');
+var BitcoinPaymentmade = require('../payment/bitcoinpayment');
 
-exports.getPaymentmades = function(req, res, next){
+exports.getPaymentsmade = function(req, res, next){
 
     Paymentmade.find({},
         {'paymentmadedata': 1, 'paymentmadeid':1, 'paymentmadeaddress':1, 'paymentmadepin': 1, 'paymentmadevalue': 1},
@@ -31,7 +31,7 @@ function get_scheme(scheme)
   }
 }
 
-exports.createPaymentmade = function(req, res ){
+exports.createPayment = function(req, res ){
     var paymentmadedata = req.body;
 
 
@@ -123,7 +123,7 @@ exports.validatePaymentmade = function(req, res, next){
 
 }
 
-exports.getPaymentmadeBalance = function(req, res, next){
+exports.getPaymentBalance = function(req, res, next){
  
     var address = req.body.paymentmadeaddress;
  

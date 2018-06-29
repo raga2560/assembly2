@@ -1,0 +1,7 @@
+{
+  "schemes": [
+        {"name": "bitcoin_30", "desc": "30% plan with bitcoin "},
+        {"name": "bitcoin_50", "desc": "50% plan with bitcoin "}
+
+  ]
+}

@@ -16,6 +16,10 @@ var PaymentmadeSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	paymentmadeaccesskey: {
+		type: String,
+		required: true
+	},
 	paymentmadeaddress: {
 		type: String,
 		required: true

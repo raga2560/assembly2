@@ -38,18 +38,19 @@ exports.createPayment = function(req, res ){
     var createdpaymentmade = '';
 
     
-    createdpaymentmade = BitcoinPaymentmade.getPaymentmade(paymentmadedata);
+    createdpaymentmade = BitcoinPaymentmade.getPayment(paymentmadedata);
     
 
     console.log(createdpaymentmade);
 
     Paymentmade.create({
-        paymentmadeid : paymentmadedata.paymentmadeid,
-        paymentmadekey : paymentmadedata.paymentmadekey,
+        paymentmadeid : paymentmadedata.paymentid,
+        paymentmadekey : paymentmadedata.paymentkey,
         vendorid : paymentmadedata.vendorid,
         paymentmadeaddress : createdpaymentmade.paymentmadeaddress,
         paymentmadevalue : createdpaymentmade.paymentmadevalue,
-        paymentmadepin : paymentmadedata.paymentmadepin,
+        paymentmadepin : paymentmadedata.paymentpin,
+        paymentmadeaccesskey : paymentmadedata.paymentaccesskey,
         paymentmadedata: JSON.stringify(createdpaymentmade),
         done : false
     }, function(err, paymentmade) {
@@ -138,7 +139,7 @@ exports.getPaymentBalance = function(req, res, next){
 exports.getPaymentmade = function(req, res, next){
 
     Paymentmade.find({
-        paymentmadeid : req.params.paymentmade_id}, {'paymentmadedata': 1,
+        paymentmadeid : req.params.payment_id}, {'paymentmadedata': 1,
 			 'paymentmadeaddress': 1},
      function(err, paymentmade) {
         if (err){

@@ -73,13 +73,14 @@ module.exports = function(app){
     couponRoutes.post('/validate/:coupon_id', requireAuth, AuthenticationController.roleAuthorization(['reader']), CouponController.validateCoupon);
 
     apiRoutes.use('/paymentmade', paymentmadeRoutes);
-    paymentmadeRoutes.get('/getPaymentsmade',  PaymentmadeController.getPaymentsmade);
-    paymentmadeRoutes.post('/createPayment',  PaymentmadeController.createPayment);
-    paymentmadeRoutes.post('/getPaymentBalance',  PaymentmadeController.getPaymentBalance);
-    paymentmadeRoutes.post('/getChargingBalance',  PaymentmadeController.getChargingBalance);
+    paymentmadeRoutes.get('/getpayments',  PaymentmadeController.getPaymentsmade);
+    paymentmadeRoutes.get('/getpayment/:payment_id',  PaymentmadeController.getPaymentmade);
+    paymentmadeRoutes.post('/createpayment',  PaymentmadeController.createPayment);
+    paymentmadeRoutes.post('/getpaymentBalance',  PaymentmadeController.getPaymentBalance);
+    paymentmadeRoutes.post('/getchargingBalance',  PaymentmadeController.getChargingBalance);
 
     apiRoutes.use('/paymentreceived', paymentreceivedRoutes);
-    paymentreceivedRoutes.get('/getPaymentreceived/:payment_id',  PaymentreceivedController.getPaymentsreceived);
+    paymentreceivedRoutes.get('/getpaymentreceived/:payment_id',  PaymentreceivedController.getPaymentsreceived);
     paymentreceivedRoutes.post('/accept/:payment_id',  PaymentreceivedController.acceptPayment);
     // Set up routes
     app.use('/api', apiRoutes);

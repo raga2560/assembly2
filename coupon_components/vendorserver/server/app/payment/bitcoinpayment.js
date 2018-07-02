@@ -2,7 +2,7 @@ bitcoin = require('bitcoinjs-lib');
 compositekeylib = require('./compositekeylib');
 
 request = require('request');
-var coupon_scheme = require('../coupon_scheme.json');
+var payment_scheme = require('../payment_scheme.json');
 var vendorcontract = require('../../config/contract.json');
 
 var globalnetwork = bitcoin.networks.testnet;
@@ -28,39 +28,39 @@ function getHash (str)
 
 }
 
-exports.getCoupon = function(coupondata){
+exports.getPayment = function(paymentdata){
 
-  var coupon = {
-    couponid: '',
-    couponaddress: '',
-    couponkey: '',
-    couponvalue: '',
-    couponplan: '',
-    couponhash: ''
+  var payment = {
+    paymentmadeid: '',
+    paymentmadeaddress: '',
+    paymentmadekey: '',
+    paymentmadevalue: '',
+    paymentmadeplan: '',
+    paymentmadehash: ''
   };
 
-  coupon.couponid = coupondata.couponid;
-  coupon.couponvalue = coupondata.couponvalue;
-  coupon.couponkey = coupondata.couponkey;
-  coupon.couponplan = coupondata.couponplan;
-  coupon.couponhash = getCouponHash(coupondata).toString('hex');
+  payment.paymentmadeid = paymentdata.paymentid;
+  payment.paymentmadevalue = paymentdata.paymentvalue;
+  payment.paymentmadekey = paymentdata.paymentkey;
+  payment.paymentmadeplan = paymentdata.paymentplan;
+  payment.paymentmadehash = getPaymentHash(paymentdata).toString('hex');
   
-  coupon.couponaddress = getCouponAddress(coupondata);
+  payment.paymentmadeaddress = getPaymentAddress(paymentdata);
 
-  return coupon; 
+  return payment; 
    
 }
 
-function getCouponAddress(coupondata   )
+function getPaymentAddress(paymentdata   )
 {
-  var couponstub = {
-   couponhash: coupondata.couponhash, 
-   couponpin: coupondata.couponpin 
+  var paymentstub = {
+   paymenthash: paymentdata.paymenthash, 
+   paymentpin: paymentdata.paymentpin 
   };
 
-  var Pin = JSON.stringify(couponstub);
+  var Pin = JSON.stringify(paymentstub);
   var Pinkey = Buffer.from(Pin);
-  var uidkey = Buffer.from(coupondata.couponkey);
+  var uidkey = Buffer.from(paymentdata.paymentkey);
 
    var docaddr = compositekeylib.getBufControlCodeAddress(Pinkey,
                 uidkey,
@@ -71,11 +71,11 @@ function getCouponAddress(coupondata   )
 }
 
 
-exports.couponCheck = function (coupondata)
+exports.paymentCheck = function (paymentdata)
 {
    var arr = [];
 
-   var plan = getPlan(coupondata.couponplan);   
+   var plan = getPlan(paymentdata.paymentplan);   
    arr.push(plan);
    var vendorhash = getHash(vendorcontract.vendorsecret);
    arr.push(vendorhash);
@@ -83,7 +83,7 @@ exports.couponCheck = function (coupondata)
    var str = JSON.stringify(arr); 
    var hash = getHash(str);
 
-   if(hash == coupondata.hash) return true;
+   if(hash == paymentdata.hash) return true;
    else return false;
  
 }
@@ -105,11 +105,11 @@ function getScheme(schemename)
 }
 
 
-function getCouponHash(coupondata)
+function getPaymentHash(paymentdata)
 {
    var arr = [];
    
-   var plan = getPlan(coupondata.couponplan);   
+   var plan = getPlan(paymentdata.paymentplan);   
    arr.push(plan); 
    var vendorhash = getHash(vendorcontract.vendorsecret);
    arr.push(vendorhash);
@@ -122,10 +122,10 @@ function getCouponHash(coupondata)
 
 
 
-exports.getCouponBalance = function (couponaddress, callback)
+exports.getPaymentBalance = function (paymentaddress, callback)
 {
 
-   var url = vendorcontract.bitcoinserverurl +"/addrs/"+couponaddress;
+   var url = vendorcontract.bitcoinserverurl +"/addrs/"+paymentaddress;
 
    request.get(url + '/full', function (error, response, body) {
         if (error) {

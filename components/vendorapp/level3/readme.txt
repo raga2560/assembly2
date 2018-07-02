@@ -1,1 +1,0 @@
-ionic generate page moonStone
